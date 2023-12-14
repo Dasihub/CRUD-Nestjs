@@ -1,0 +1,27 @@
+version: '3.0'
+
+services:
+  nest-app:
+    container_name: crud
+    build:
+      context: .
+    ports:
+      - 5000:5000
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    restart: always
+
+  postgres:
+    image: postgres:15
+    env_file:
+      - .env
+    volumes:
+      - /.:/docker-entrypoint-initdb.d
+      - appdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  appdata:
